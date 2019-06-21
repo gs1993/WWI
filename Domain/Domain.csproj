@@ -1,0 +1,279 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DCD6D783-35E8-4268-AABC-D17065E7FAE7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Domain</RootNamespace>
+    <AssemblyName>Domain</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=8.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.8.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapperFramework, Version=1.0.5382.35177, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapperFramework.1.0.5382.35177\lib\net45\AutoMapperFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Dtos\AutomapperConfig\AutoMapperConfig.cs" />
+    <Compile Include="Dtos\CustumerDto.cs" />
+    <Compile Include="Models\BuyingGroup.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BuyingGroups_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cities_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\City.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ColdRoomTemperature.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ColdRoomTemperatures_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Color.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Colors_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Countries_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Country.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customer.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerCategories_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerCategory.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customers1.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Customers_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CustomerTransaction.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeliveryMethod.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DeliveryMethods_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetMovementUpdates_Result.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetOrderUpdates_Result.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetPurchaseUpdates_Result.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetSaleUpdates_Result.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetStockHoldingUpdates_Result.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\GetTransactionUpdates_Result.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Invoice.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\InvoiceLine.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Order.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderLine.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PackageType.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PackageTypes_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PaymentMethod.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PaymentMethods_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\People_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Person.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PurchaseOrder.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PurchaseOrderLine.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SpecialDeal.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StateProvince.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StateProvinces_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockGroup.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockGroups_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockItem.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockItemHolding.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockItemStockGroup.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockItems_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StockItemTransaction.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierCategories_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierCategory.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Suppliers1.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Suppliers_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SupplierTransaction.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SystemParameter.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TransactionType.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TransactionTypes_Archive.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleTemperature.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VehicleTemperatures1.cs">
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WWI.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WWI.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WWI.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WWI.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WWI.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WWI.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CustomerService.cs" />
+    <Compile Include="Services\ICustomerService.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <EntityDeploy Include="Models\WWI.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WWI.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Models\WWI.edmx.diagram">
+      <DependentUpon>WWI.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Models\WWI.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WWI.edmx</DependentUpon>
+      <LastGenOutput>WWI.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\WWI.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WWI.edmx</DependentUpon>
+      <LastGenOutput>WWI.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
