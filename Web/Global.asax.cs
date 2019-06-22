@@ -24,6 +24,12 @@ namespace Web
 
             AutoMapperConfig.Configure();
 
+            var container = ConfigureAutofac();
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+        }
+
+        private IContainer ConfigureAutofac()
+        {
             var builder = new ContainerBuilder();
 
             // Register your MVC controllers. (MvcApplication is the name of
@@ -44,13 +50,13 @@ namespace Web
             builder.RegisterFilterProvider();
 
             builder.RegisterType<CustomerService>().As<ICustomerService>();
+            builder.RegisterType<CategoryService>().As<ICategoryService>();
 
             builder.RegisterType<WideWorldImportersEntities>()
                 .InstancePerLifetimeScope();
 
             // Set the dependency resolver to be Autofac.
-            var container = builder.Build();
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+            return builder.Build();
         }
     }
 }

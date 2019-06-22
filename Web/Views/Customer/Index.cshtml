@@ -1,0 +1,6 @@
+﻿@model IEnumerable<Domain.Dtos.CustumerListDto>
+
+
+@if(ViewBag.Categories)
+@Html.DropDownList("SelectedCategories", (MultiSelectList)ViewBag.Categories);
+

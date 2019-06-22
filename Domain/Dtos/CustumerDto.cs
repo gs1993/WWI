@@ -6,7 +6,7 @@ namespace Domain.Dtos
     {
         public int CustomerID { get; set; }
         public string CustomerName { get; set; }
-        public int CustomerCategoryName { get; set; }
+        public string CustomerCategoryName { get; set; }
         public Nullable<decimal> CreditLimit { get; set; }
         public System.DateTime AccountOpenedDate { get; set; }
         public decimal StandardDiscountPercentage { get; set; }
