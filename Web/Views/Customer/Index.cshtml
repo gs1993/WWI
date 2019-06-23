@@ -1,6 +1,89 @@
-﻿@model IEnumerable<Domain.Dtos.CustumerListDto>
+﻿@model Web.ViewModels.CustomerFormViewModel
+
+<link href="~/Content/chosen.min.css" rel="stylesheet" />
+
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">
+            Welcome to the Wide Word Importers!
+        </h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel panel-yellow">
+            <div>
+                @using (Html.BeginForm("Index", "Customer", FormMethod.Post))
+                {
+                    <div>
+                        @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.CategoryNames, new { id = "multiselectDropdown", multiple = "multiple" })
+                        @Html.TextBoxFor(m => m.CustomerName)
+                        @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker" } })
+                        @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker" } })
+
+                        <input type="submit" value="Search" />
+                    </div>
+                }
+            </div>
+            <div class="panel-heading">
+                Customer List
+            </div>
+            <div class="panel-body">
+                <table class="table table-responsive list-view">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Credit limit (payment days)</th>
+                            <th>Account opened</th>
+                            <th>Discount %</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var customer in Model.Customers)
+                        {
+                            <tr>
+                                <td>@customer.CustomerName</td>
+                                <td>@customer.CustomerCategoryName</td>
+                                <td>@customer.CreditLimit (@customer.PaymentDays)</td>
+                                <td>@customer.AccountOpenedDate</td>
+                                <td>@customer.StandardDiscountPercentage</td>
+                                <td>@Html.ActionLink("View", "Reply", "Messages", new { Id = customer.CustomerID }, null)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="panel-footer">
+                @*@Html.ActionLink("See all", "ViewAll", "Messages", null, new { @class = "pull-right btn btn-primary" }) <br />
+            <span class="clearfix"></span>*@
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="col-sm-12">
+            @*@Html.Action("Survey")*@
+        </div>
+        <div class="col-sm-12">
+            @*@Html.Action("Suggestion")*@
+        </div>
+    </div>
+</div>
 
 
-@if(ViewBag.Categories)
-@Html.DropDownList("SelectedCategories", (MultiSelectList)ViewBag.Categories);
+@section scripts {
+    <script src="~/Scripts/chosen.jquery.min.js"></script>
+    <script>
+        $(function () {
+            $("#multiselectDropdown").chosen();
 
+        }); $(".datepicker").datepicker({
+            dateFormat: "yy-mm-dd",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-20:+00"
+        });
+    </script>
+}
