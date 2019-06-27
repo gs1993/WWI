@@ -11,18 +11,19 @@
 </div>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="panel panel-yellow">
             <div>
                 @using (Html.BeginForm("Index", "Customer", FormMethod.Post))
                 {
                     <div>
-                        @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.CategoryNames, new { id = "multiselectDropdown", multiple = "multiple" })
-                        @Html.TextBoxFor(m => m.CustomerName)
-                        @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker" } })
-                        @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker" } })
+                        @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.CategoryNames,
+                            new { id = "multiselectDropdown", multiple = "multiple", @class = "from-control", style = "width: 250px" })
+                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "from-control", type = "text" })
+                        @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker from-control", id = "datepickerStart" } })
+                        @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker from-control", id = "datepickerEnd" } })
 
-                        <input type="submit" value="Search" />
+                        <input type="submit" value="Search" class="btn btn-success btn-sm form-control" />
                     </div>
                 }
             </div>
@@ -58,11 +59,11 @@
             </div>
             <div class="panel-footer">
                 @*@Html.ActionLink("See all", "ViewAll", "Messages", null, new { @class = "pull-right btn btn-primary" }) <br />
-            <span class="clearfix"></span>*@
+                    <span class="clearfix"></span>*@
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="col-sm-12">
             @*@Html.Action("Survey")*@
         </div>
@@ -78,12 +79,37 @@
     <script>
         $(function () {
             $("#multiselectDropdown").chosen();
+        });
 
-        }); $(".datepicker").datepicker({
+        $(".datepicker").datepicker({
             dateFormat: "yy-mm-dd",
             changeMonth: true,
             changeYear: true,
-            yearRange: "-20:+00"
+            yearRange: "-20:+00",
+            maxDate: '0'
+        });
+
+        $("#datepickerStart").datepicker({
+            constrainInput: true,
+            changeMonth: true,
+            changeYear: true,
+            firstDay: 1,
+            numberOfMonths: 1,
+            onClose: function (selectedDate, obj) {
+                $("#datepickerEnd").datepicker("option", "minDate", new Date(selectedDate));
+            }
+        });
+        $("#datepickerEnd").datepicker({
+            constrainInput: true,
+            changeMonth: true,
+            changeYear: false,
+            firstDay: 1,
+            numberOfMonths: 1,
+            onClose: function (selectedDate, obj) {
+                console.log("datepickerEnd close");
+                var index = obj.input.data("index");
+                $("#datepickerStart").datepicker("option", "maxDate", selectedDate);
+            }
         });
     </script>
 }
