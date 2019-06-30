@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Domain.Dtos.CustomerListDto>
+
+@if (Model != null && Model.Any()) {
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Credit limit (payment days)</th>
+                <th>Account opened</th>
+                <th>Discount %</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in Model)
+            {
+                <tr>
+                    <td>@customer.CustomerName</td>
+                    <td>@customer.CustomerCategoryName</td>
+                    <td>@customer.CreditLimit (@customer.PaymentDays)</td>
+                    <td>@customer.AccountOpenedDate</td>
+                    <td>@customer.StandardDiscountPercentage</td>
+                    <td>@Ajax.ActionLink("More info", "Details",
+                       new { customerId = customer.CustomerID },
+                       new AjaxOptions {
+                           UpdateTargetId = "Customer_Details",
+                           InsertionMode = InsertionMode.Replace,
+                           OnSuccess = "RescaleLayout()",
+                           HttpMethod = "GET"
+                       })</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

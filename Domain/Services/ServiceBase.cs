@@ -2,7 +2,7 @@
 
 namespace Domain.Services
 {
-    public class ServiceBase
+    public class ServiceBase : IServiceBase
     {
         protected WideWorldImportersEntities Context;
 

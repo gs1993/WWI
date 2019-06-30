@@ -17,6 +17,7 @@ namespace Web.ViewModels
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
 
+        public CustomerDetailsDto SelectedCustomer { get; set; }
         public IEnumerable<CustomerListDto> Customers { get; set; }
 
 

@@ -26,7 +26,7 @@ namespace Web.Controllers
             var customersDto = await _customerService.GetPage(DateTime.MinValue, DateTime.Now, null);
 
             var vm = CustomerFormViewModel.Create(customersDto, null, null, categoryNames, null, null, null, null);
-
+            //vm.SelectedCustomer = new CustomerDetailsDto();
             return View(vm);
         }
 
@@ -40,6 +40,19 @@ namespace Web.Controllers
                 vm.CustomerName, vm.PageNumber, vm.PageSize);
 
             return View(result);
+        }
+
+        public async Task<ActionResult> Details(int customerId)
+        {
+            if (customerId < 0)
+                return View("Error");
+
+            var customer = new CustomerDetailsDto() { CustomerName = "Test Name", CustomerCategoryName = "Test categury" };
+
+            if (Request.IsAjaxRequest())
+                return PartialView("CustomerDetails", customer);
+
+            throw new NotImplementedException();
         }
     }
 }

@@ -253,6 +253,7 @@
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\ICategoryService.cs" />
     <Compile Include="Services\ICustomerService.cs" />
+    <Compile Include="Services\IServiceBase.cs" />
     <Compile Include="Services\ServiceBase.cs" />
     <Compile Include="SqlServerTypes\Loader.cs" />
   </ItemGroup>

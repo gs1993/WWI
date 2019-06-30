@@ -6,6 +6,7 @@ using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -49,8 +50,13 @@ namespace Web
             // OPTIONAL: Enable property injection into action filters.
             builder.RegisterFilterProvider();
 
-            builder.RegisterType<CustomerService>().As<ICustomerService>();
-            builder.RegisterType<CategoryService>().As<ICategoryService>();
+            // REGISTER SERVICES
+            builder.RegisterAssemblyTypes(Assembly.Load(nameof(Domain)))
+                .Where(t => t.Namespace.Contains("Services"))
+                .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == $"I{t.Name}"));
+
+            //builder.RegisterType<CustomerService>().As<ICustomerService>();
+            //builder.RegisterType<CategoryService>().As<ICategoryService>();
 
             builder.RegisterType<WideWorldImportersEntities>()
                 .InstancePerLifetimeScope();

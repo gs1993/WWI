@@ -4,72 +4,55 @@
 
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">
-            Welcome to the Wide Word Importers!
-        </h1>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Customer Search
+                <div class="pull-right">
+                    <a class="btn btn-primary btn-sm pull-right">Create New Customer</a>
+                </div>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @class = "form-inline" }))
+                {
+                    <div class="col-sm-12">
+                        <div class="form-group col-sm-4">
+                            <label>Name</label>
+                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "from-control input-sm cell", type = "Customer Name", placeholder = "Customer Name" })
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>Min date</label>
+                            @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerStart" } })
+                        </div>
+                        <div class="form-group col-sm-4">
+                            <label>Max date</label>
+                            @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerEnd" } })
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>Categories</label>
+                            @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.CategoryNames,
+                                new { id = "multiselectDropdown", multiple = "multiple", @class = "from-control input-sm cell" })
+                        </div>
+                        <div class="form-group pull-right">
+                            <button type="submit" class="btn btn-info pull-right"><i class="fa fa-search"></i>&nbsp;Search</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-9">
-        <div class="panel panel-yellow">
-            <div>
-                @using (Html.BeginForm("Index", "Customer", FormMethod.Post))
-                {
-                    <div>
-                        @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.CategoryNames,
-                            new { id = "multiselectDropdown", multiple = "multiple", @class = "from-control", style = "width: 250px" })
-                        @Html.TextBoxFor(m => m.CustomerName, new { @class = "from-control", type = "text" })
-                        @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker from-control", id = "datepickerStart" } })
-                        @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker from-control", id = "datepickerEnd" } })
-
-                        <input type="submit" value="Search" class="btn btn-success btn-sm form-control" />
-                    </div>
-                }
-            </div>
-            <div class="panel-heading">
-                Customer List
-            </div>
-            <div class="panel-body">
-                <table class="table table-responsive list-view">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Credit limit (payment days)</th>
-                            <th>Account opened</th>
-                            <th>Discount %</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var customer in Model.Customers)
-                        {
-                            <tr>
-                                <td>@customer.CustomerName</td>
-                                <td>@customer.CustomerCategoryName</td>
-                                <td>@customer.CreditLimit (@customer.PaymentDays)</td>
-                                <td>@customer.AccountOpenedDate</td>
-                                <td>@customer.StandardDiscountPercentage</td>
-                                <td>@Html.ActionLink("View", "Reply", "Messages", new { Id = customer.CustomerID }, null)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <div class="panel-footer">
-                @*@Html.ActionLink("See all", "ViewAll", "Messages", null, new { @class = "pull-right btn btn-primary" }) <br />
-                    <span class="clearfix"></span>*@
-            </div>
-        </div>
+    <div id="main-list" class="col">
+        @Html.Partial("CustomerList", Model.Customers);
     </div>
-    <div class="col-md-3">
-        <div class="col-sm-12">
-            @*@Html.Action("Survey")*@
-        </div>
-        <div class="col-sm-12">
-            @*@Html.Action("Suggestion")*@
-        </div>
+    <div id="details" class="hidden">
+        @if (Model.SelectedCustomer != null)
+        {
+            @Html.Partial("CustomerDetails", Model.SelectedCustomer)
+        }
     </div>
 </div>
 
@@ -77,8 +60,39 @@
 @section scripts {
     <script src="~/Scripts/chosen.jquery.min.js"></script>
     <script>
+        $(document).ready(function () {
+            console.log("document.ready");
+
+            var mainListElement = document.getElementById("main-list");
+            var detailsElement = document.getElementById("details");
+
+            @if(Model.SelectedCustomer != null) {
+                @:mainListElement.className = "col-md-8";
+                @:detailsElement.classList = "col-md-4";
+            } else {
+                @:mainListElement.className = "col";
+                @:detailsElement.classList = "hidden";
+            }
+        });
+
+        function RescaleLayout(){
+            console.log("RescaleLayout()");
+
+            @if(Model.SelectedCustomer != null) {
+                @:mainListElement.className = "col-md-8";
+                @:detailsElement.classList = "col-md-4";
+            } else {
+                @:mainListElement.className = "col";
+                @:detailsElement.classList = "hidden";
+            }
+        }
+
         $(function () {
-            $("#multiselectDropdown").chosen();
+            $("#multiselectDropdown").chosen({
+                max_selected_options: 3,
+                inherit_select_classes: true,
+                width: "95%"
+              });
         });
 
         $(".datepicker").datepicker({
@@ -88,7 +102,6 @@
             yearRange: "-20:+00",
             maxDate: '0'
         });
-
         $("#datepickerStart").datepicker({
             constrainInput: true,
             changeMonth: true,
