@@ -23,9 +23,9 @@ namespace Web.Controllers
         public async Task<ActionResult> Index()
         {
             var categoryNames = _categoryService.GetCategoryNames();
-            var customersDto = await _customerService.GetPage(DateTime.MinValue, DateTime.Now, null);
+            var customersDto = await _customerService.GetPage(DateTime.MinValue, DateTime.Now, 0);
 
-            var vm = CustomerFormViewModel.Create(customersDto, null, null, categoryNames, null, null, null, null);
+            var vm = CustomerFormViewModel.Create(customersDto, null, null, categoryNames, 0, null);
             //vm.SelectedCustomer = new CustomerDetailsDto();
             return View(vm);
         }
@@ -33,11 +33,11 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<ActionResult> Index(CustomerFormViewModel vm)
         {
-            var customersDto = await _customerService.GetPage(vm.FromDate, vm.ToDate, vm.SelectedCategoryIds, vm.CustomerName, vm.PageNumber, vm.PageSize);
+            var customersDto = await _customerService.GetPage(vm.FromDate, vm.ToDate, vm.SelectedCategoryId, vm.CustomerName);
             var categoryNames = _categoryService.GetCategoryNames();
 
-            var result = CustomerFormViewModel.Create(customersDto, vm.FromDate, vm.ToDate, categoryNames, vm.SelectedCategoryIds,
-                vm.CustomerName, vm.PageNumber, vm.PageSize);
+            var result = CustomerFormViewModel.Create(customersDto, vm.FromDate, vm.ToDate, categoryNames, 
+                vm.SelectedCategoryId, vm.CustomerName);
 
             return View(result);
         }

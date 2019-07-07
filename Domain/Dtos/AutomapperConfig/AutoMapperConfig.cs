@@ -5,10 +5,12 @@ namespace Domain.Dtos.AutomapperConfig
 {
     public static class AutoMapperConfig
     {
+        [System.Obsolete]
         public static void Configure()
         {
-            Mapper.Initialize(cfg => // Discount do 2 miejsc po przecinku
+            Mapper.Initialize(cfg =>
             {
+                cfg.ShouldMapProperty = pi => pi.PropertyType.IsPublic || pi.PropertyType.IsNotPublic;
                 cfg.CreateMap<Customer, CustomerListDto>()
                 .ForMember(dest => dest.AccountOpenedDate,
                         opt => opt.MapFrom(src => src.AccountOpenedDate.ToString("yyyy-MM-dd")))

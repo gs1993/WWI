@@ -1,78 +1,218 @@
 ﻿@model Web.ViewModels.CustomerFormViewModel
 
-<link href="~/Content/chosen.min.css" rel="stylesheet" />
-
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                Customer Search
-                <div class="pull-right">
-                    <a class="btn btn-primary btn-sm pull-right">Create New Customer</a>
+<div class="container-fluid">
+    <div class="row flex-lg-nowrap">
+        <div class="col mb-12">
+            <div class="card-header">
+                <h6 class="mr-2"><span>Customers</span><small class="px-1">Be a wise leader</small></h6>
+            </div>
+            <div class="e-panel card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+                            @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @class = "form-inline" }))
+                            {
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control w-100", placeholder = "Customer Name" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.DropDownListFor(m => m.SelectedCategoryId, Model.CategoryNames, "Select category",
+                                        new { @class = "from-control custom-select" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerStart", @style = "width:120px" } })
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerEnd", @style = "width:120px" } })
+                                </div>
+                                <button type="submit" class="btn btn-primary pull-right">Search</button>
+                            }
+                        </nav>
+                        <hr />
+                    </div>
+                    @Html.Partial("CustomerList", Model.Customers)
                 </div>
             </div>
-            <div class="panel-body">
-                @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @class = "form-inline" }))
-                {
-                    <div class="col-sm-12">
-                        <div class="form-group col-sm-4">
-                            <label>Name</label>
-                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "from-control input-sm cell", type = "Customer Name", placeholder = "Customer Name" })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label>Min date</label>
-                            @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerStart" } })
-                        </div>
-                        <div class="form-group col-sm-4">
-                            <label>Max date</label>
-                            @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerEnd" } })
-                        </div>
+        </div>
+
+        <div class="col-12 col-lg-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center px-xl-3">
+                        <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal">New User</button>
                     </div>
-                    <div class="col-sm-12">
+                    <hr class="my-3">
+                    <div class="e-navlist e-navlist--active-bold">
+                        <ul class="nav">
+                            <li class="nav-item active"><a href="" class="nav-link"><span>All</span>&nbsp;<small>/&nbsp;32</small></a></li>
+                            <li class="nav-item"><a href="" class="nav-link"><span>Active</span>&nbsp;<small>/&nbsp;16</small></a></li>
+                            <li class="nav-item"><a href="" class="nav-link"><span>Selected</span>&nbsp;<small>/&nbsp;0</small></a></li>
+                        </ul>
+                    </div>
+                    <hr class="my-3">
+                    <div>
                         <div class="form-group">
-                            <label>Categories</label>
-                            @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.CategoryNames,
-                                new { id = "multiselectDropdown", multiple = "multiple", @class = "from-control input-sm cell" })
+                            <label>Date from - to:</label>
+                            <div>
+                                <input id="dates-range" class="form-control flatpickr-input" placeholder="01 Dec 17 - 27 Jan 18" type="text" readonly="readonly">
+                            </div>
                         </div>
-                        <div class="form-group pull-right">
-                            <button type="submit" class="btn btn-info pull-right"><i class="fa fa-search"></i>&nbsp;Search</button>
+                        <div class="form-group">
+                            <label>Search by Name:</label>
+                            <div><input class="form-control w-100" type="text" placeholder="Name" value=""></div>
                         </div>
                     </div>
-                }
+                    <hr class="my-3">
+                    <div class="">
+                        <label>Status:</label>
+                        <div class="px-2">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="user-status" id="users-status-disabled">
+                                <label class="custom-control-label" for="users-status-disabled">Disabled</label>
+                            </div>
+                        </div>
+                        <div class="px-2">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="user-status" id="users-status-active">
+                                <label class="custom-control-label" for="users-status-active">Active</label>
+                            </div>
+                        </div>
+                        <div class="px-2">
+                            <div class="custom-control custom-radio">
+                                <input type="radio" class="custom-control-input" name="user-status" id="users-status-any" checked="">
+                                <label class="custom-control-label" for="users-status-any">Any</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Form Modal -->
+        <div class="modal fade" role="dialog" tabindex="-1" id="user-form-modal">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create User</h5>
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="py-1">
+                            <form class="form" novalidate="">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Full Name</label>
+                                                    <input class="form-control" type="text" name="name" placeholder="John Smith" value="John Smith">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Username</label>
+                                                    <input class="form-control" type="text" name="username" placeholder="johnny.s" value="johnny.s">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Email</label>
+                                                    <input class="form-control" type="text" placeholder="user@example.com">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <div class="form-group">
+                                                    <label>About</label>
+                                                    <textarea class="form-control" rows="5" placeholder="My Bio"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-sm-6 mb-3">
+                                        <div class="mb-2"><b>Change Password</b></div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Current Password</label>
+                                                    <input class="form-control" type="password" placeholder="••••••">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>New Password</label>
+                                                    <input class="form-control" type="password" placeholder="••••••">
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
+                                                    <input class="form-control" type="password" placeholder="••••••">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-sm-5 offset-sm-1 mb-3">
+                                        <div class="mb-2"><b>Keeping in Touch</b></div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <label>Email Notifications</label>
+                                                <div class="custom-controls-stacked px-2">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="notifications-blog" checked="">
+                                                        <label class="custom-control-label" for="notifications-blog">Blog posts</label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="notifications-news" checked="">
+                                                        <label class="custom-control-label" for="notifications-news">Newsletter</label>
+                                                    </div>
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" class="custom-control-input" id="notifications-offers" checked="">
+                                                        <label class="custom-control-label" for="notifications-offers">Personal Offers</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col d-flex justify-content-end">
+                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row">
-    <div id="main-list" class="col">
-        @Html.Partial("CustomerList", Model.Customers);
-    </div>
-    <div id="details" class="hidden">
-        @if (Model.SelectedCustomer != null)
-        {
-            @Html.Partial("CustomerDetails", Model.SelectedCustomer)
-        }
-    </div>
-</div>
-
 
 @section scripts {
-    <script src="~/Scripts/chosen.jquery.min.js"></script>
     <script>
         $(document).ready(function () {
-            console.log("document.ready");
-
-            var mainListElement = document.getElementById("main-list");
-            var detailsElement = document.getElementById("details");
-
-            @if(Model.SelectedCustomer != null) {
-                @:mainListElement.className = "col-md-8";
-                @:detailsElement.classList = "col-md-4";
-            } else {
-                @:mainListElement.className = "col";
-                @:detailsElement.classList = "hidden";
-            }
+            $('#customers-table').DataTable({
+                "language": {
+                    "search": "Filter records:"
+                },
+                stateSave: true,
+                "columnDefs": [ {
+                    "targets": [0, 6],
+                    "orderable": false
+                }]
+            });
         });
 
         function RescaleLayout(){
@@ -87,20 +227,14 @@
             }
         }
 
-        $(function () {
-            $("#multiselectDropdown").chosen({
-                max_selected_options: 3,
-                inherit_select_classes: true,
-                width: "95%"
-              });
-        });
-
         $(".datepicker").datepicker({
-            dateFormat: "yy-mm-dd",
+            dateFormat: 'yy-mm-dd',
+            timeInput: false,
             changeMonth: true,
             changeYear: true,
             yearRange: "-20:+00",
             maxDate: '0'
+
         });
         $("#datepickerStart").datepicker({
             constrainInput: true,
@@ -108,21 +242,86 @@
             changeYear: true,
             firstDay: 1,
             numberOfMonths: 1,
-            onClose: function (selectedDate, obj) {
-                $("#datepickerEnd").datepicker("option", "minDate", new Date(selectedDate));
-            }
+            //onClose: function (selectedDate, obj) {
+            //    $("#datepickerEnd").datepicker("option", "minDate", new Date(selectedDate));
+            //}
         });
         $("#datepickerEnd").datepicker({
-            constrainInput: true,
-            changeMonth: true,
-            changeYear: false,
             firstDay: 1,
             numberOfMonths: 1,
-            onClose: function (selectedDate, obj) {
-                console.log("datepickerEnd close");
-                var index = obj.input.data("index");
-                $("#datepickerStart").datepicker("option", "maxDate", selectedDate);
-            }
+            //onClose: function (selectedDate, obj) {
+            //    console.log("datepickerEnd close");
+            //    var index = obj.input.data("index");
+            //    $("#datepickerStart").datepicker("option", "maxDate", selectedDate);
+            //}
         });
     </script>
 }
+
+
+@*$(document).ready(function () {
+        var mainListElement = document.getElementById("main-list");
+        var detailsElement = document.getElementById("details");
+
+        @if(Model.SelectedCustomer != null) {
+            @:mainListElement.className = "col-md-8";
+            @:detailsElement.classList = "col-md-4";
+        } else {
+            @:mainListElement.className = "col";
+            @:detailsElement.classList = "hidden";
+        }
+    });*@
+
+@*<div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    Customer Search
+                    <div class="pull-right">
+                        <a class="btn btn-primary btn-sm pull-right">Create New Customer</a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @class = "form-inline" }))
+                    {
+                        <div class="col-sm-12">
+                            <div class="form-group col-sm-4">
+                                <label>Name</label>
+                                @Html.TextBoxFor(m => m.CustomerName, new { @class = "from-control input-sm cell", type = "Customer Name", placeholder = "Customer Name" })
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label>Min date</label>
+                                @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerStart" } })
+                            </div>
+                            <div class="form-group col-sm-4">
+                                <label>Max date</label>
+                                @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerEnd" } })
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>Categories</label>
+                                @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.CategoryNames,
+                                    new { id = "multiselectDropdown", multiple = "multiple", @class = "from-control input-sm cell" })
+                            </div>
+                            <div class="form-group pull-right">
+                                <button type="submit" class="btn btn-info pull-right"><i class="fa fa-search"></i>&nbsp;Search</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+@*<div class="row">
+        <div id="main-list" class="col">
+            @Html.Partial("CustomerList", Model.Customers);
+        </div>
+        <div id="details" class="hidden">
+            @if (Model.SelectedCustomer != null)
+            {
+                @Html.Partial("CustomerDetails", Model.SelectedCustomer)
+            }
+        </div>
+    </div>*@

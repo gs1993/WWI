@@ -11,7 +11,6 @@ namespace Domain.Services
 {
     public class CustomerService : ServiceBase, ICustomerService
     {
-        public const int DefaultPageSize = 25;
         public static DateTime DefaultDateFrom = DateTime.Now.AddDays(-10).Date;
         public static DateTime DefaultDateTo = DateTime.Now.Date;
 
@@ -20,16 +19,13 @@ namespace Domain.Services
         }
 
         public async Task<IEnumerable<CustomerListDto>> GetPage(DateTime dateFrom, DateTime dateTo,
-             int[] customerCategoryIds, string customerName = "", int pageNumber = 1, int pageSize = DefaultPageSize)
+             int customerCategoryId, string customerName = "")
         {
-            if (pageNumber < 1) pageNumber = 1;
-            if (pageSize < 1) pageSize = DefaultPageSize;
-            int skip = (pageNumber - 1) * pageSize;
-
+            
             var customers = Context.Customers.Include("CustomerCategory").AsQueryable();
 
-            if (customerCategoryIds?.Length > 0)
-                customers = customers.Where(c => customerCategoryIds.Contains(c.CustomerCategoryID));
+            if (customerCategoryId != 0)
+                customers = customers.Where(c => c.CustomerCategoryID == customerCategoryId);
 
             if (!string.IsNullOrEmpty(customerName))
                 customers = customers.Where(c => c.CustomerName.Contains(customerName));
@@ -38,8 +34,6 @@ namespace Domain.Services
 
             var result = await customers
                 .OrderByDescending(c => c.CustomerID)
-                .Skip(skip)
-                .Take(pageSize)
                 .ToListAsync();
 
             var dto = Mapper.Map<List<CustomerListDto>>(result);
