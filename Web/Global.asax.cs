@@ -3,11 +3,8 @@ using Autofac.Integration.Mvc;
 using Domain.Dtos.AutomapperConfig;
 using Domain.Models;
 using Domain.Services;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
@@ -55,11 +52,10 @@ namespace Web
                 .Where(t => t.Namespace.Contains("Services"))
                 .As(t => t.GetInterfaces().FirstOrDefault(i => i.Name == $"I{t.Name}"));
 
-            //builder.RegisterType<CustomerService>().As<ICustomerService>();
-            //builder.RegisterType<CategoryService>().As<ICategoryService>();
-
             builder.RegisterType<WideWorldImportersEntities>()
                 .InstancePerLifetimeScope();
+
+            //builder.RegisterInstance(StaticDataService.Instance).ExternallyOwned();
 
             // Set the dependency resolver to be Autofac.
             return builder.Build();

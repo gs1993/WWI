@@ -9,9 +9,10 @@
 <!-- MDBootstrap Datatables  -->
 <link href="~/Content/css/addons/datatables.min.css" rel="stylesheet" />
 
-
-
-<div class="container-fluid border" style="background-color: white">
+<div class="loaderbody" id="loaderbody">
+    <div class="loader"></div>
+</div>
+<div class="container-fluid border" style="background-color:white">
     <form class="border border-light p-5">
         <p class="h4 mb-4 text-center">Transaction Editor</p>
         <div class="form-row mb-4">
@@ -34,14 +35,16 @@
                 <label>test 3</label>
                 <input type="text" id="defaultRegisterFormLastName" class="form-control">
             </div>
-            <div class="col">
-                <label>test 3</label>
-                <input type="text" id="defaultRegisterFormLastName" class="form-control">
-            </div>
-            <div class="col">
-                <label>test 3</label>
-                <input type="text" id="defaultRegisterFormLastName" class="form-control">
-            </div>
+            <label>test 3</label>
+            <input type="text" id="defaultRegisterFormLastName" class="form-control">
+        </div>
+        <div class="col">
+            <input type="text" id="defaultRegisterFormLastName" class="form-control"><input placeholder="Selected starting date" type="text" id="startingDate" class="form-control datepicker">
+            <label for="startingDate">start</label>
+        </div>
+        <div class="col">
+            <input placeholder="Selected ending date" type="text" id="endingDate" class="form-control datepicker">
+            <label for="endingDate">end</label>
         </div>
         <div class="form-row mb-4">
 
@@ -80,12 +83,12 @@
         </thead>
         <tbody>
             <tr>
-                <th scope="row">
+                <td scope="row">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="tableDefaultCheck2" checked>
                         <label class="custom-control-label" for="tableDefaultCheck2">Check 2</label>
                     </div>
-                </th>
+                </td>
                 <td>Cell 1</td>
                 <td>Cell 2</td>
                 <td>Cell 3</td>
@@ -107,6 +110,13 @@
                 <td>Cell 4</td>
                 <td>Cell 5</td>
                 <td>Cell 6</td>
+                <td>
+                    <span class="table-remove">
+                        <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
+                            Remove
+                        </button>
+                    </span>
+                </td>
             </tr>
             <tr>
                 <th scope="row">
@@ -118,10 +128,19 @@
                 <td>Cell 7</td>
                 <td>Cell 8</td>
                 <td>Cell 9</td>
+                <td>
+                    <span class="table-remove">
+                        <button type="button" class="btn btn-danger btn-rounded btn-sm my-0">
+                            Remove
+                        </button>
+                    </span>
+                </td>
             </tr>
         </tbody>
-        <!-- Table body -->
     </table>
+
+    <input placeholder="Selected date" type="text" id="date-picker-example" class="form-control datepicker">
+    <label for="date-picker-example">Try me...</label>
 </div>
 
 
@@ -134,13 +153,42 @@
 <script src="~/Scripts/js/bootstrap.min.js"></script>
 <!-- MDB core JavaScript -->
 <script src="~/Scripts/js/mdb.min.js"></script>
-<!-- MDBootstrap Datatables  -->
-<script src="~/Scripts/js/addons/datatables.min.js"></script>
 
 
 <!-- MDBootstrap Datatables  -->
 <script src="../Scripts/js/addons/datatables.min.js"></script>
 <script>
+    $(document).ready(function () {
+        var from_input = $('#startingDate').pickadate(),
+            from_picker = from_input.pickadate('picker')
+        var to_input = $('#endingDate').pickadate(),
+            to_picker = to_input.pickadate('picker')
+
+        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
+        if (from_picker.get('value')) {
+            to_picker.set('min', from_picker.get('select'))
+        }
+        if (to_picker.get('value')) {
+            from_picker.set('max', to_picker.get('select'))
+        }
+
+        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
+        from_picker.on('set', function (event) {
+            if (event.select) {
+                to_picker.set('min', from_picker.get('select'))
+            } else if ('clear' in event) {
+                to_picker.set('min', false)
+            }
+        })
+        to_picker.on('set', function (event) {
+            if (event.select) {
+                from_picker.set('max', to_picker.get('select'))
+            } else if ('clear' in event) {
+                from_picker.set('max', false)
+            }
+        })
+    });
+
     $('#dt-basic-checkbox').dataTable({
         "searching": false,
         "lengthChange": false,
@@ -150,4 +198,8 @@
             "targets": 0
         }]
     });
+
+
+
 </script>
+
