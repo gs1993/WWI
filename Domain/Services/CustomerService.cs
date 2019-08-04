@@ -18,6 +18,22 @@ namespace Domain.Services
         {
         }
 
+        public async Task<int> GetCount(DateTime dateFrom, DateTime dateTo,
+             int customerCategoryId, string customerName = "")
+        {
+            var customers = Context.Customers.Include("CustomerCategory").AsQueryable();
+
+            if (customerCategoryId != 0)
+                customers = customers.Where(c => c.CustomerCategoryID == customerCategoryId);
+
+            if (!string.IsNullOrEmpty(customerName))
+                customers = customers.Where(c => c.CustomerName.Contains(customerName));
+
+            customers = customers.Where(c => dateFrom >= c.AccountOpenedDate && c.AccountOpenedDate <= dateTo);
+
+            return await customers.CountAsync();
+        }
+
         public async Task<IEnumerable<CustomerListDto>> GetPage(DateTime dateFrom, DateTime dateTo,
              int customerCategoryId, string customerName = "")
         {

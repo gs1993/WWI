@@ -4,10 +4,6 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 <!-- Bootstrap core CSS -->
 <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
-<!-- Material Design Bootstrap -->
-<link href="~/Content/css/mdb.min.css" rel="stylesheet" />
-<!-- MDBootstrap Datatables  -->
-<link href="~/Content/css/addons/datatables.min.css" rel="stylesheet" />
 
 <div class="loaderbody" id="loaderbody">
     <div class="loader"></div>
@@ -30,39 +26,8 @@
             </div>
         </div>
 
-        <div class="form-row mb-4">
-            <div class="col">
-                <label>test 3</label>
-                <input type="text" id="defaultRegisterFormLastName" class="form-control">
-            </div>
-            <label>test 3</label>
-            <input type="text" id="defaultRegisterFormLastName" class="form-control">
-        </div>
-        <div class="col">
-            <input type="text" id="defaultRegisterFormLastName" class="form-control"><input placeholder="Selected starting date" type="text" id="startingDate" class="form-control datepicker">
-            <label for="startingDate">start</label>
-        </div>
-        <div class="col">
-            <input placeholder="Selected ending date" type="text" id="endingDate" class="form-control datepicker">
-            <label for="endingDate">end</label>
-        </div>
-        <div class="form-row mb-4">
-
-            <div class="col">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="defaultRegisterFormNewsletter">
-                    <label class="custom-control-label" for="defaultRegisterFormNewsletter">Subscribe to our newsletter</label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="defaultRegisterFormNewsletter">
-                    <label class="custom-control-label" for="defaultRegisterFormNewsletter">Subscribe</label>
-                </div>
-            </div>
-            <div class="col col-2">
-                <button class="btn btn-info btn-primary" type="submit">Search</button>
-            </div>
+        <div class="col col-2">
+            <button class="btn btn-info btn-primary" type="submit">Search</button>
         </div>
         <hr>
     </form>
@@ -151,54 +116,8 @@
 <script src="~/Scripts/js/popper.min.js"></script>
 <!-- Bootstrap core JavaScript -->
 <script src="~/Scripts/js/bootstrap.min.js"></script>
-<!-- MDB core JavaScript -->
-<script src="~/Scripts/js/mdb.min.js"></script>
 
-
-<!-- MDBootstrap Datatables  -->
-<script src="../Scripts/js/addons/datatables.min.js"></script>
 <script>
-    $(document).ready(function () {
-        var from_input = $('#startingDate').pickadate(),
-            from_picker = from_input.pickadate('picker')
-        var to_input = $('#endingDate').pickadate(),
-            to_picker = to_input.pickadate('picker')
-
-        // Check if there’s a “from” or “to” date to start with and if so, set their appropriate properties.
-        if (from_picker.get('value')) {
-            to_picker.set('min', from_picker.get('select'))
-        }
-        if (to_picker.get('value')) {
-            from_picker.set('max', to_picker.get('select'))
-        }
-
-        // Apply event listeners in case of setting new “from” / “to” limits to have them update on the other end. If ‘clear’ button is pressed, reset the value.
-        from_picker.on('set', function (event) {
-            if (event.select) {
-                to_picker.set('min', from_picker.get('select'))
-            } else if ('clear' in event) {
-                to_picker.set('min', false)
-            }
-        })
-        to_picker.on('set', function (event) {
-            if (event.select) {
-                from_picker.set('max', to_picker.get('select'))
-            } else if ('clear' in event) {
-                from_picker.set('max', false)
-            }
-        })
-    });
-
-    $('#dt-basic-checkbox').dataTable({
-        "searching": false,
-        "lengthChange": false,
-        "columnDefs": [{
-            "orderable": false,
-            "className": 'select-checkbox',
-            "targets": 0
-        }]
-    });
-
 
 
 </script>

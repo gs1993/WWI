@@ -1,4 +1,10 @@
 ﻿@model Web.ViewModels.CustomerFormViewModel
+@using PagedList;
+@using PagedList.Mvc;
+
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
 
 <div class="container-fluid">
     <div class="row flex-lg-nowrap">
@@ -30,193 +36,63 @@
                         </nav>
                         <hr />
                     </div>
-                    @Html.Partial("CustomerList", Model.Customers)
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-lg-3 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="text-center px-xl-3">
-                        <button class="btn btn-success btn-block" type="button" data-toggle="modal" data-target="#user-form-modal">New User</button>
-                    </div>
-                    <hr class="my-3">
-                    <div class="e-navlist e-navlist--active-bold">
-                        <ul class="nav">
-                            <li class="nav-item active"><a href="" class="nav-link"><span>All</span>&nbsp;<small>/&nbsp;32</small></a></li>
-                            <li class="nav-item"><a href="" class="nav-link"><span>Active</span>&nbsp;<small>/&nbsp;16</small></a></li>
-                            <li class="nav-item"><a href="" class="nav-link"><span>Selected</span>&nbsp;<small>/&nbsp;0</small></a></li>
-                        </ul>
-                    </div>
-                    <hr class="my-3">
-                    <div>
-                        <div class="form-group">
-                            <label>Date from - to:</label>
-                            <div>
-                                <input id="dates-range" class="form-control flatpickr-input" placeholder="01 Dec 17 - 27 Jan 18" type="text" readonly="readonly">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Search by Name:</label>
-                            <div><input class="form-control w-100" type="text" placeholder="Name" value=""></div>
-                        </div>
-                    </div>
-                    <hr class="my-3">
-                    <div class="">
-                        <label>Status:</label>
-                        <div class="px-2">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="user-status" id="users-status-disabled">
-                                <label class="custom-control-label" for="users-status-disabled">Disabled</label>
-                            </div>
-                        </div>
-                        <div class="px-2">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="user-status" id="users-status-active">
-                                <label class="custom-control-label" for="users-status-active">Active</label>
-                            </div>
-                        </div>
-                        <div class="px-2">
-                            <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="user-status" id="users-status-any" checked="">
-                                <label class="custom-control-label" for="users-status-any">Any</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- User Form Modal -->
-        <div class="modal fade" role="dialog" tabindex="-1" id="user-form-modal">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Create User</h5>
-                        <button type="button" class="close" data-dismiss="modal">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="py-1">
-                            <form class="form" novalidate="">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Full Name</label>
-                                                    <input class="form-control" type="text" name="name" placeholder="John Smith" value="John Smith">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Username</label>
-                                                    <input class="form-control" type="text" name="username" placeholder="johnny.s" value="johnny.s">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Email</label>
-                                                    <input class="form-control" type="text" placeholder="user@example.com">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col mb-3">
-                                                <div class="form-group">
-                                                    <label>About</label>
-                                                    <textarea class="form-control" rows="5" placeholder="My Bio"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-12 col-sm-6 mb-3">
-                                        <div class="mb-2"><b>Change Password</b></div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Current Password</label>
-                                                    <input class="form-control" type="password" placeholder="••••••">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>New Password</label>
-                                                    <input class="form-control" type="password" placeholder="••••••">
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
-                                                    <input class="form-control" type="password" placeholder="••••••">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-5 offset-sm-1 mb-3">
-                                        <div class="mb-2"><b>Keeping in Touch</b></div>
-                                        <div class="row">
-                                            <div class="col">
-                                                <label>Email Notifications</label>
-                                                <div class="custom-controls-stacked px-2">
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="notifications-blog" checked="">
-                                                        <label class="custom-control-label" for="notifications-blog">Blog posts</label>
+                    <div class="e-table">
+                        <div class="table-responsive table-lg mt-9">
+                            <table class="table table-striped table-bordered dt-responsive nowrap" style="width:100%" id="customers-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th class="max-width">Category</th>
+                                        <th>Credit limit (PD)</th>
+                                        <th>Account opened</th>
+                                        <th>Discount %</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Customers != null && Model.Customers.Any())
+                                    {
+                                        foreach (var customer in Model.Customers)
+                                        {
+                                            <tr>
+                                                <td class="text-nowrap align-middle">@customer.CustomerName</td>
+                                                <td class="text-nowrap align-middle">@customer.CustomerCategoryName</td>
+                                                <td class="text-nowrap align-middle">@customer.CreditLimit (@customer.PaymentDays)</td>
+                                                <td class="text-nowrap align-middle">@customer.AccountOpenedDate</td>
+                                                <td class="text-nowrap align-middle">@customer.StandardDiscountPercentage</td>
+                                                <td class="text-center align-middle">
+                                                    <div class="btn-group align-top">
+                                                        <button class="btn btn-sm btn-outline-secondary badge" type="button" data-toggle="modal" data-target="#user-form-modal">Edit</button>
                                                     </div>
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="notifications-news" checked="">
-                                                        <label class="custom-control-label" for="notifications-news">Newsletter</label>
-                                                    </div>
-                                                    <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="notifications-offers" checked="">
-                                                        <label class="custom-control-label" for="notifications-offers">Personal Offers</label>
-                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="7">
+                                                <div class="card-title">
+                                                    <h6 class="mr-2"><span>No results</span></h6>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col d-flex justify-content-end">
-                                        <button class="btn btn-primary" type="submit">Save Changes</button>
-                                    </div>
-                                </div>
-                            </form>
+                                            </td>
 
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            @if (Model.Customers.PageCount > 1)
+                            {
+                                <div class="pager">
+                                    @Html.PagedListPager(Model.Customers, page => Url.Action("Index", new
+                                                   {
+                                                       page
+                                                   }))
+                                    Page @(Model.Customers.PageCount < Model.Customers.PageNumber ? 0 : Model.Customers.PageNumber) of @Model.Customers.PageCount
+                                </div>
+                            }
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" tabindex="-1" id="myModal">
-            <div class="modal-dialog">
-                <div class="modal-content">
-
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                        <h4 class="modal-title">Modal Heading</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-
-                    <!-- Modal body -->
-                    <div class="modal-body">
-                        Modal body..
-                    </div>
-
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -224,129 +100,12 @@
 </div>
 
 
+<script src="~/Scripts/bootstrap.min.js"></script>
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+
+
 @section scripts {
-    <script>
-        $(document).ready(function () {
-            $('#customers-table').DataTable({
-                "language": {
-                    "search": "Filter records:"
-                },
-                stateSave: true,
-                "columnDefs": [ {
-                    "targets": [0, 6],
-                    "orderable": false
-                }]
-            });
-        });
 
-
-        function RescaleLayout(){
-            console.log("RescaleLayout()");
-
-            @if(Model.SelectedCustomer != null) {
-                @:mainListElement.className = "col-md-8";
-                @:detailsElement.classList = "col-md-4";
-            } else {
-                @:mainListElement.className = "col";
-                @:detailsElement.classList = "hidden";
-            }
-        }
-
-        $(".datepicker").datepicker({
-            dateFormat: 'yy-mm-dd',
-            timeInput: false,
-            changeMonth: true,
-            changeYear: true,
-            yearRange: "-20:+00",
-            maxDate: '0'
-
-        });
-        $("#datepickerStart").datepicker({
-            constrainInput: true,
-            changeMonth: true,
-            changeYear: true,
-            firstDay: 1,
-            numberOfMonths: 1,
-            //onClose: function (selectedDate, obj) {
-            //    $("#datepickerEnd").datepicker("option", "minDate", new Date(selectedDate));
-            //}
-        });
-        $("#datepickerEnd").datepicker({
-            firstDay: 1,
-            numberOfMonths: 1,
-            //onClose: function (selectedDate, obj) {
-            //    console.log("datepickerEnd close");
-            //    var index = obj.input.data("index");
-            //    $("#datepickerStart").datepicker("option", "maxDate", selectedDate);
-            //}
-        });
-    </script>
 }
 
-
-@*$(document).ready(function () {
-        var mainListElement = document.getElementById("main-list");
-        var detailsElement = document.getElementById("details");
-
-        @if(Model.SelectedCustomer != null) {
-            @:mainListElement.className = "col-md-8";
-            @:detailsElement.classList = "col-md-4";
-        } else {
-            @:mainListElement.className = "col";
-            @:detailsElement.classList = "hidden";
-        }
-    });*@
-
-@*<div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    Customer Search
-                    <div class="pull-right">
-                        <a class="btn btn-primary btn-sm pull-right">Create New Customer</a>
-                    </div>
-                </div>
-                <div class="panel-body">
-                    @using (Html.BeginForm("Index", "Customer", FormMethod.Post, new { @class = "form-inline" }))
-                    {
-                        <div class="col-sm-12">
-                            <div class="form-group col-sm-4">
-                                <label>Name</label>
-                                @Html.TextBoxFor(m => m.CustomerName, new { @class = "from-control input-sm cell", type = "Customer Name", placeholder = "Customer Name" })
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label>Min date</label>
-                                @Html.EditorFor(m => m.FromDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerStart" } })
-                            </div>
-                            <div class="form-group col-sm-4">
-                                <label>Max date</label>
-                                @Html.EditorFor(m => m.ToDate, new { htmlAttributes = new { @class = "datepicker form-control input-sm cell", id = "datepickerEnd" } })
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>Categories</label>
-                                @Html.ListBoxFor(m => m.SelectedCategoryIds, Model.CategoryNames,
-                                    new { id = "multiselectDropdown", multiple = "multiple", @class = "from-control input-sm cell" })
-                            </div>
-                            <div class="form-group pull-right">
-                                <button type="submit" class="btn btn-info pull-right"><i class="fa fa-search"></i>&nbsp;Search</button>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>*@
-
-@*<div class="row">
-        <div id="main-list" class="col">
-            @Html.Partial("CustomerList", Model.Customers);
-        </div>
-        <div id="details" class="hidden">
-            @if (Model.SelectedCustomer != null)
-            {
-                @Html.Partial("CustomerDetails", Model.SelectedCustomer)
-            }
-        </div>
-    </div>*@

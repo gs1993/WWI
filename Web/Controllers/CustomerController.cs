@@ -1,5 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Services;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,9 @@ namespace Web.Controllers
         {
             var categoryNames = _categoryService.GetCategoryNames();
             var customersDto = await _customerService.GetPage(DateTime.MinValue, DateTime.Now, 0);
+            int totalCount = await _customerService.GetCount(DateTime.MinValue, DateTime.Now, 0, "");
 
-            var vm = CustomerFormViewModel.Create(customersDto, null, null, categoryNames, 0, null);
+            var vm = CustomerFormViewModel.Create(new StaticPagedList<CustomerListDto>(customersDto, 1, 10, totalCount), null, null, categoryNames, 0, null);
             //vm.SelectedCustomer = new CustomerDetailsDto();
             return View(vm);
         }
@@ -36,10 +38,18 @@ namespace Web.Controllers
             var customersDto = await _customerService.GetPage(vm.FromDate, vm.ToDate, vm.SelectedCategoryId, vm.CustomerName);
             var categoryNames = _categoryService.GetCategoryNames();
 
-            var result = CustomerFormViewModel.Create(customersDto, vm.FromDate, vm.ToDate, categoryNames, 
-                vm.SelectedCategoryId, vm.CustomerName);
 
-            return View(result);
+            vm.CategoryNames = categoryNames.Select(c => new SelectListItem()
+            {
+                Text = c.CategoryName,
+                Value = c.CategoryId.ToString()
+            });
+
+            int totalCount = await _customerService.GetCount(vm.FromDate, vm.ToDate, vm.SelectedCategoryId, vm.CustomerName);
+
+            vm.Customers = new StaticPagedList<CustomerListDto>(customersDto, 1, 10, totalCount);
+
+            return View(vm);
         }
 
         public async Task<ActionResult> Details(int customerId)

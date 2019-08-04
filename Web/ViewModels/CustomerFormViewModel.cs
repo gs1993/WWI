@@ -1,5 +1,6 @@
 ﻿using Domain.Dtos;
 using Domain.Services;
+using PagedList;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -19,10 +20,10 @@ namespace Web.ViewModels
         public int SelectedCategoryId { get; set; }
         
         public CustomerDetailsDto SelectedCustomer { get; set; }
-        public IEnumerable<CustomerListDto> Customers { get; set; }
+        public IPagedList<CustomerListDto> Customers { get; set; }
 
 
-        public static CustomerFormViewModel Create(IEnumerable<CustomerListDto> customers, DateTime? fromDate,
+        public static CustomerFormViewModel Create(IPagedList<CustomerListDto> customers, DateTime? fromDate,
             DateTime? toDate, IEnumerable<CategoryNameDto> categoryNames, int selectedCategoryId, string customerName)
         {
             if (categoryNames == null)
@@ -36,7 +37,7 @@ namespace Web.ViewModels
 
             return new CustomerFormViewModel()
             {
-                Customers = customers ?? new List<CustomerListDto>(),
+                Customers = customers,
                 FromDate = fromDate ?? CustomerService.DefaultDateFrom,
                 ToDate = toDate ?? CustomerService.DefaultDateTo,
                 CategoryNames = categoryNamesSelectList,
